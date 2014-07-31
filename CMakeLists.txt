@@ -36,7 +36,6 @@ set(NETWORK_LIBS
     ${Boost_LIBRARIES}
     )
 
-
 ################################
 # Build targets
 ################################
