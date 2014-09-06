@@ -25,6 +25,7 @@ file(GLOB_RECURSE INCLUDES include/*.h)
 file(GLOB_RECURSE SRC src/*.cpp)
 
 include_directories(include)
+include_directories(include/network)
 include_directories(src)
 
 ################################
