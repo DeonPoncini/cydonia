@@ -14,7 +14,7 @@ class Session : public MessageIO,
 {
 public:
     Session();
-    ~Session();
+    virtual ~Session();
 
     void start();
 
