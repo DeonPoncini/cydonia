@@ -18,8 +18,7 @@ Message::Message(const Message& other) :
 {
     mMsgHeader = other.mMsgHeader;
     encodeHeader();
-    if (mMsgHeader.length > 0)
-    {
+    if (mMsgHeader.length > 0) {
         memcpy(mData,other.mData,other.dataSize());
     }
 }
@@ -41,8 +40,7 @@ const char* Message::header() const
 
 void Message::decodeHeader()
 {
-    if (mMsgHeader.length > 0)
-    {
+    if (mMsgHeader.length > 0) {
         allocate();
         memcpy(mData,header(),HEADER_SIZE);
     }
@@ -50,8 +48,7 @@ void Message::decodeHeader()
 
 void Message::encodeHeader()
 {
-    if (mMsgHeader.length > 0)
-    {
+    if (mMsgHeader.length > 0) {
         allocate();
         memcpy(mData,&mMsgHeader,HEADER_SIZE);
     }
@@ -89,8 +86,7 @@ void Message::allocate()
 
 void Message::deallocate()
 {
-    if (mData != nullptr)
-    {
+    if (mData != nullptr) {
         delete mData;
         mData = nullptr;
     }

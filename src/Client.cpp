@@ -29,13 +29,10 @@ Client::~Client()
 
 void Client::connect(ErrorCode error)
 {
-    if (!error)
-    {
+    if (!error) {
         BOOST_LOG_TRIVIAL(trace) << "Client connected";
         startRead();
-    }
-    else
-    {
+    } else {
         throw boost::system::system_error(error);
     }
 }

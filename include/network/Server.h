@@ -64,16 +64,13 @@ template <typename T, typename... Args>
 void Server<T,Args...>::accept(SessionPtr session, ErrorCode error)
 {
     BOOST_LOG_TRIVIAL(trace) << "Accepted connection";
-    if (!error)
-    {
+    if (!error) {
         session->start();
         auto newSession = mMakeSession();
         mAcceptor.async_accept(newSession->socket(),
                 boost::bind(&Server::accept, this, newSession,
                     boost::asio::placeholders::error));
-    }
-    else
-    {
+    } else {
         BOOST_LOG_TRIVIAL(trace) << "Connection error " << error;
         SessionManager::get().remove(session);
     }

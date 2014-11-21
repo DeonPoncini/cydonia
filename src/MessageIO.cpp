@@ -34,8 +34,7 @@ void MessageIO::sendMessage(int type, const char* message,
         unsigned size, int frameId)
 {
     // make a message object
-    if (frameId == -1)
-    {
+    if (frameId == -1) {
         frameId = currentMs();
     }
     Message msg(type, size, frameId);
@@ -44,8 +43,7 @@ void MessageIO::sendMessage(int type, const char* message,
     bool alreadyWriting = !mWriteQueue.empty();
     mWriteQueue.push_back(msg);
 
-    if (!alreadyWriting)
-    {
+    if (!alreadyWriting) {
         boost::asio::async_write(mSocket,
                 boost::asio::buffer(mWriteQueue.front().data(),
                     mWriteQueue.front().dataSize()),
@@ -67,20 +65,16 @@ void MessageIO::startRead()
 
 void MessageIO::write(ErrorCode error)
 {
-    if (!error)
-    {
+    if (!error) {
         mWriteQueue.pop_front();
-        if (!mWriteQueue.empty())
-        {
+        if (!mWriteQueue.empty()) {
             boost::asio::async_write(mSocket,
                     boost::asio::buffer(mWriteQueue.front().data(),
                         mWriteQueue.front().dataSize()),
                     boost::bind(&MessageIO::write, this,
                         boost::asio::placeholders::error));
         }
-    }
-    else
-    {
+    } else {
         BOOST_LOG_TRIVIAL(trace) << "Error writing message: " << error;
         onWriteError();
     }
@@ -88,16 +82,13 @@ void MessageIO::write(ErrorCode error)
 
 void MessageIO::readHeader(ErrorCode error, MessagePtr message)
 {
-    if (!error)
-    {
+    if (!error) {
         message->decodeHeader();
         boost::asio::async_read(mSocket,
                 boost::asio::buffer(message->body(),message->size()),
                 boost::bind(&MessageIO::readBody, this,
                     boost::asio::placeholders::error, message));
-    }
-    else
-    {
+    } else {
         BOOST_LOG_TRIVIAL(trace) << "Header read error: " << error;
         onReadError();
     }
@@ -105,8 +96,7 @@ void MessageIO::readHeader(ErrorCode error, MessagePtr message)
 
 void MessageIO::readBody(ErrorCode error, MessagePtr message)
 {
-    if (!error)
-    {
+    if (!error) {
         BOOST_LOG_TRIVIAL(trace) << "Receive message: " << message->body();
         // let the handling happen
         onRecv(message);
@@ -118,9 +108,7 @@ void MessageIO::readBody(ErrorCode error, MessagePtr message)
                     Message::HEADER_SIZE),
                 boost::bind(&MessageIO::readHeader, this,
                     boost::asio::placeholders::error, nextMessage));
-    }
-    else
-    {
+    } else {
         BOOST_LOG_TRIVIAL(trace) << "Body error: " << error;
         onReadError();
     }
@@ -129,8 +117,7 @@ void MessageIO::readBody(ErrorCode error, MessagePtr message)
 void MessageIO::onRecv(MessagePtr message)
 {
     // dispatch
-    for(auto& l : mListeners)
-    {
+    for(auto& l : mListeners) {
         l->onRecv(*message);
     }
 }
