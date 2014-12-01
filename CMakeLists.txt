@@ -5,9 +5,9 @@ project(libnetwork)
 # Compiler setup
 ################################
 
-add_definitions(-Wall)
+set(NETWORK_VERSION "0.0.1")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -DBOOST_LOG_DYN_LINK")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DBOOST_LOG_DYN_LINK")
 
 ################################
 # Third party libraries
@@ -45,4 +45,15 @@ add_library(network SHARED
 
 target_link_libraries(network
     ${NETWORK_LIBS})
+
+################################
+# Export library
+################################
+
+export_project(
+    NAME libnetwork
+    INCLUDES ${CMAKE_CURRENT_LIST_DIR}/include
+    LIBS network
+    VERSION ${NETWORK_VERSION}
+)
 
