@@ -1,6 +1,6 @@
-#include "Client.h"
+#include <network/Client.h>
 
-#include "IOServiceManager.h"
+#include <network/IOServiceManager.h>
 
 #include <boost/bind.hpp>
 #include <boost/log/trivial.hpp>

@@ -1,5 +1,5 @@
-#include "Session.h"
-#include "SessionManager.h"
+#include <network/Session.h>
+#include <network/SessionManager.h>
 
 #include <boost/bind.hpp>
 #include <boost/log/trivial.hpp>

@@ -15,8 +15,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DBOOST_LOG_DYN_LINK")
 find_package(Threads)
 find_package(Boost 1.55.0 COMPONENTS
     log log_setup thread system chrono date_time REQUIRED)
+find_package(zephyr)
 
 include_directories(${BOOST_INCLUDE_DIRS})
+include_directories(${ZEPHYR_INCLUDE_DIRS})
 
 ################################
 # Locate source
@@ -25,7 +27,6 @@ file(GLOB_RECURSE INCLUDES include/*.h)
 file(GLOB_RECURSE SRC src/*.cpp)
 
 include_directories(include)
-include_directories(include/network)
 include_directories(src)
 
 ################################
@@ -34,6 +35,7 @@ include_directories(src)
 set(NETWORK_LIBS
     ${CMAKE_THREAD_LIBS_INIT}
     ${Boost_LIBRARIES}
+    ${ZEPHYR_LIBRARIES}
     )
 
 ################################
