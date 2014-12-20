@@ -25,6 +25,7 @@ include_directories(${ZEPHYR_INCLUDE_DIRS})
 ################################
 file(GLOB_RECURSE INCLUDES include/*.h)
 file(GLOB_RECURSE SRC src/*.cpp)
+file(GLOB_RECURSE TEST test/*.cpp)
 
 include_directories(include)
 include_directories(src)
@@ -47,6 +48,12 @@ add_library(network SHARED
 
 target_link_libraries(network
     ${NETWORK_LIBS})
+
+add_executable(network-test
+    ${TEST})
+
+target_link_libraries(network-test
+    network)
 
 ################################
 # Export library

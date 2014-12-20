@@ -51,7 +51,7 @@ void Protocol::sendPong()
     mMessageIO.sendMessage(MessageTypes::PONG,"Pong",-1);
 }
 
-void Protocol::onRecv(const network::Message& message)
+void Protocol::onRecv(const Message& message)
 {
     mMessageLoop.write(message);
 }
