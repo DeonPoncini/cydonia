@@ -5,6 +5,54 @@
 #include <iostream>
 #include <string>
 
+class TestProtocol : public network::Protocol
+{
+public:
+    class Listener : public network::Protocol::Listener
+    {
+    public:
+        virtual ~Listener() {}
+        virtual void onPongRecv() = 0;
+    };
+
+    TestProtocol(network::MessageIO& messageIO) :
+        network::Protocol(messageIO)
+    {
+    }
+
+    virtual ~TestProtocol() {}
+
+    void sendPing()
+    {
+        sendMessage(PING,"Ping",-1);
+    }
+
+    void sendPong()
+    {
+        sendMessage(PONG,"Pong",-1);
+    }
+
+private:
+    enum MessageType
+    {
+        PING = 0,
+        PONG
+    };
+
+    virtual void message(const network::Message& message) override
+    {
+        switch (message.type()) {
+            case MessageType::PING:
+                std::cout << "Ping received" << std::endl;
+                sendPong();
+                break;
+            case MessageType::PONG:
+                std::cout << "Pong received" << std::endl;
+                break;
+        }
+    }
+};
+
 class TestSession : public network::Session
 {
 public:
@@ -15,7 +63,7 @@ public:
     }
 
 private:
-    network::Protocol mProtocol;
+    TestProtocol mProtocol;
 };
 
 void usage()
@@ -52,7 +100,7 @@ int main(int argc, char* argv[])
         std::string ip(argv[2]);
         std::string port(argv[3]);
         network::Client client(ip, port);
-        network::Protocol protocol(client);
+        TestProtocol protocol{client};
         protocol.sendPing();
         network::IOServiceManager::get().run();
     } else {

@@ -27,18 +27,21 @@ public:
     void addListener(Listener* l);
     void removeListener(Listener* l);
 
-    void sendPing();
-    void sendPong();
-
     virtual void onRecv(const Message& message) override;
+
+protected:
+    void sendMessage(int type, const std::string& message, int frameId);
+    void sendMessage(int type, const char* message,
+            unsigned size, int frameId);
 
 private:
     MessageIO& mMessageIO;
     std::vector<Listener*> mListeners;
-    zephyr::QueueLoop<network::Message> mMessageLoop;
+    zephyr::QueueLoop<Message> mMessageLoop;
     std::thread mReplyThread;
 
     void replyThread();
+    virtual void message(const Message& message) = 0;
 };
 
 }
