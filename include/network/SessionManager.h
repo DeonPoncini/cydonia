@@ -28,7 +28,7 @@ private:
 template <typename T, typename... Args>
 SessionPtr SessionManager::create(Args&&... args)
 {
-    auto session = std::shared_ptr<T>(new T(std::forward<Args>(args)...));
+    auto session = std::make_shared<T>(std::forward<Args>(args)...);
     mSessions.push_back(session);
     return session;
 }

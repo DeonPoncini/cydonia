@@ -56,7 +56,7 @@ void MessageIO::startRead()
 {
     boost::asio::ip::tcp::no_delay nodelay(true);
     mSocket.set_option(nodelay);
-    MessagePtr message(new Message());
+    auto message = std::make_shared<Message>();
     boost::asio::async_read(mSocket,
         boost::asio::buffer(message->header(),Message::HEADER_SIZE),
         boost::bind(&MessageIO::readHeader, this,
@@ -75,7 +75,7 @@ void MessageIO::write(ErrorCode error)
                         boost::asio::placeholders::error));
         }
     } else {
-        BOOST_LOG_TRIVIAL(trace) << "Error writing message: " << error;
+        BOOST_LOG_TRIVIAL(trace) << "Error writing message: " << error.message();
         onWriteError();
     }
 }
@@ -89,7 +89,7 @@ void MessageIO::readHeader(ErrorCode error, MessagePtr message)
                 boost::bind(&MessageIO::readBody, this,
                     boost::asio::placeholders::error, message));
     } else {
-        BOOST_LOG_TRIVIAL(trace) << "Header read error: " << error;
+        BOOST_LOG_TRIVIAL(trace) << "Header read error: " << error.message();
         onReadError();
     }
 }
@@ -102,14 +102,14 @@ void MessageIO::readBody(ErrorCode error, MessagePtr message)
         onRecv(message);
 
         // read the next message
-        MessagePtr nextMessage(new Message());
+        auto nextMessage = std::make_shared<Message>();
         boost::asio::async_read(mSocket,
                 boost::asio::buffer(nextMessage->header(),
                     Message::HEADER_SIZE),
                 boost::bind(&MessageIO::readHeader, this,
                     boost::asio::placeholders::error, nextMessage));
     } else {
-        BOOST_LOG_TRIVIAL(trace) << "Body error: " << error;
+        BOOST_LOG_TRIVIAL(trace) << "Body error: " << error.message();
         onReadError();
     }
 }

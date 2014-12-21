@@ -15,7 +15,6 @@ typedef boost::asio::io_service IOService;
 typedef boost::asio::ip::tcp::socket Socket;
 typedef boost::system::error_code ErrorCode;
 
-
 namespace network
 {
 

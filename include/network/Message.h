@@ -20,7 +20,7 @@ private:
 public:
     static const int HEADER_SIZE = sizeof(header_t);
 
-    Message(int type = 0, unsigned size = 0,int frame = -1);
+    Message(int type = 0, unsigned size = 0, int frame = -1);
     Message(const Message& other) = delete;
     Message& operator=(const Message&) = delete;
     Message(Message&& other);
@@ -30,21 +30,24 @@ public:
     bool operator==(const Message& rhs);
     bool operator!=(const Message& rhs);
 
-    char* header();
-    const char* header() const;
-    void decodeHeader();
-
-    inline int type() const { return mMsgHeader.type; }
-    inline unsigned size() const { return mMsgHeader.length; }
-    inline int id() const { return mMsgHeader.frame; }
-    inline unsigned dataSize() const { return HEADER_SIZE + size(); }
-
-    char* body();
-    const char* body() const;
     void setBody(const char* data);
 
     char* data();
     const char* data() const;
+
+    char* header();
+    const char* header() const;
+
+    char* body();
+    const char* body() const;
+
+    inline unsigned dataSize() const { return HEADER_SIZE + size(); }
+
+    inline int type() const { return mMsgHeader.type; }
+    inline unsigned size() const { return mMsgHeader.length; }
+    inline int id() const { return mMsgHeader.frame; }
+
+    void decodeHeader();
 
 private:
     void allocate();

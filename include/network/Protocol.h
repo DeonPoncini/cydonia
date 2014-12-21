@@ -11,8 +11,6 @@
 namespace network
 {
 
-class Connection;
-
 class Protocol : public MessageListener
 {
 public:
