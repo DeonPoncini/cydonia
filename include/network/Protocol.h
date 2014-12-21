@@ -19,7 +19,7 @@ public:
     Protocol(MessageIO& messageIO);
     virtual ~Protocol();
 
-    virtual void onRecv(const Message& message) override;
+    virtual void onRecv(Message&& message) override;
 
 protected:
     void sendMessage(int type, const std::string& message, int frameId);
@@ -32,7 +32,7 @@ private:
     std::thread mReplyThread;
 
     void replyThread();
-    virtual void message(const Message& message) = 0;
+    virtual void message(Message&& message) = 0;
 };
 
 }

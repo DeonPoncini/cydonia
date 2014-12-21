@@ -13,19 +13,41 @@ Message::Message(int type, unsigned size, int frame) :
     encodeHeader();
 }
 
-Message::Message(const Message& other) :
-    mData(nullptr)
+Message::Message(Message&& other) :
+    mMsgHeader(other.mMsgHeader),
+    mData(other.mData)
 {
-    mMsgHeader = other.mMsgHeader;
-    encodeHeader();
-    if (mMsgHeader.length > 0) {
-        memcpy(mData,other.mData,other.dataSize());
+    other.mData = nullptr;
+    other.mMsgHeader.length = 0;
+}
+
+Message& Message::operator=(Message&& rhs)
+{
+    if (*this != rhs) {
+        mMsgHeader = rhs.mMsgHeader;
+        mData = rhs.mData;
+        rhs.mData = nullptr;
+        rhs.mMsgHeader.length = 0;
     }
+    return *this;
 }
 
 Message::~Message()
 {
     deallocate();
+}
+
+bool Message::operator==(const Message& rhs)
+{
+    return (mMsgHeader.type == rhs.mMsgHeader.type) &&
+        (mMsgHeader.length == rhs.mMsgHeader.length) &&
+        (mMsgHeader.frame == rhs.mMsgHeader.frame) &&
+        (mData == rhs.mData);
+}
+
+bool Message::operator!=(const Message& rhs)
+{
+    return !(*this == rhs);
 }
 
 char* Message::header()

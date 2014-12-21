@@ -21,9 +21,9 @@ Protocol::~Protocol()
     }
 }
 
-void Protocol::onRecv(const Message& message)
+void Protocol::onRecv(Message&& message)
 {
-    mMessageLoop.write(message);
+    mMessageLoop.write(std::move(message));
 }
 
 void Protocol::sendMessage(int type, const std::string& message, int frameId)
@@ -41,8 +41,7 @@ void Protocol::replyThread()
 {
     while(!mMessageLoop.shouldExit()) {
         while (mMessageLoop.more()) {
-            auto m = mMessageLoop.read();
-            message(m);
+            message(mMessageLoop.read());
         }
     }
 }

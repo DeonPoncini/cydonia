@@ -25,7 +25,7 @@ class MessageListener
 {
 public:
     virtual ~MessageListener() {}
-    virtual void onRecv(const Message& message) = 0;
+    virtual void onRecv(Message&& message) = 0;
 };
 
 class MessageIO

@@ -41,7 +41,7 @@ void MessageIO::sendMessage(int type, const char* message,
     msg.setBody(message);
 
     bool alreadyWriting = !mWriteQueue.empty();
-    mWriteQueue.push_back(msg);
+    mWriteQueue.emplace_back(std::move(msg));
 
     if (!alreadyWriting) {
         boost::asio::async_write(mSocket,
@@ -118,7 +118,7 @@ void MessageIO::onRecv(MessagePtr message)
 {
     // dispatch
     for(auto& l : mListeners) {
-        l->onRecv(*message);
+        l->onRecv(std::move(*message));
     }
 }
 

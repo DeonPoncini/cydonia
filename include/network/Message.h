@@ -21,8 +21,14 @@ public:
     static const int HEADER_SIZE = sizeof(header_t);
 
     Message(int type = 0, unsigned size = 0,int frame = -1);
-    Message(const Message& other);
+    Message(const Message& other) = delete;
+    Message& operator=(const Message&) = delete;
+    Message(Message&& other);
+    Message& operator=(Message&& rhs);
     ~Message();
+
+    bool operator==(const Message& rhs);
+    bool operator!=(const Message& rhs);
 
     char* header();
     const char* header() const;
