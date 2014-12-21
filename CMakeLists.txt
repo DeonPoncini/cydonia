@@ -14,7 +14,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DBOOST_LOG_DYN_LINK")
 ################################
 find_package(Threads)
 find_package(Boost 1.55.0 COMPONENTS
-    log log_setup thread system chrono date_time REQUIRED)
+    log log_setup thread system REQUIRED)
 find_package(zephyr)
 
 include_directories(${BOOST_INCLUDE_DIRS})
