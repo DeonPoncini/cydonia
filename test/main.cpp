@@ -5,6 +5,8 @@
 #include <iostream>
 #include <string>
 
+const auto PING_COUNT = 100;
+
 class TestProtocol : public network::Protocol
 {
 public:
@@ -40,7 +42,7 @@ private:
         PONG
     };
 
-    virtual void message(const network::Message& message) override
+    virtual void message(network::Message&& message) override
     {
         switch (message.type()) {
             case MessageType::PING:
@@ -65,8 +67,13 @@ public:
     virtual ~TestProtocolListener() {}
     virtual void onPongRecv() override
     {
-        network::IOServiceManager::get().stop();
+        mRecCount++;
+        if (mRecCount == PING_COUNT) {
+            network::IOServiceManager::get().stop();
+        }
     }
+private:
+    int mRecCount = 0;
 };
 
 class TestSession : public network::Session
@@ -86,6 +93,11 @@ void usage()
 {
     std::cout << "Usage: network-test server <port> | client <ip>"
         << " <port>" << std::endl;
+}
+
+void iothread()
+{
+    network::IOServiceManager::get().run();
 }
 
 int main(int argc, char* argv[])
@@ -111,15 +123,23 @@ int main(int argc, char* argv[])
     if (action == "server") {
         auto port = atoi(argv[2]);
         network::Server<TestSession> server(port);
-        network::IOServiceManager::get().run();
+        std::thread t(iothread);
+        if (t.joinable()) {
+            t.join();
+        }
     } else if (action == "client") {
         std::string ip(argv[2]);
         std::string port(argv[3]);
         network::Client client(ip, port);
         TestProtocolListener listener;
         TestProtocol protocol{client, &listener};
-        protocol.sendPing();
-        network::IOServiceManager::get().run();
+        std::thread t(iothread);
+        for (auto i = 0; i < PING_COUNT; i++) {
+            protocol.sendPing();
+        }
+        if (t.joinable()) {
+            t.join();
+        }
     } else {
         usage();
         return -1;
