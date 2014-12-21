@@ -21,17 +21,6 @@ Protocol::~Protocol()
     }
 }
 
-void Protocol::addListener(Listener* l)
-{
-    mListeners.push_back(l);
-}
-
-void Protocol::removeListener(Listener* l)
-{
-    mListeners.erase(std::remove(std::begin(mListeners),
-                std::end(mListeners), l), std::end(mListeners));
-}
-
 void Protocol::onRecv(const Message& message)
 {
     mMessageLoop.write(message);

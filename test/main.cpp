@@ -8,15 +8,16 @@
 class TestProtocol : public network::Protocol
 {
 public:
-    class Listener : public network::Protocol::Listener
+    class Listener
     {
     public:
         virtual ~Listener() {}
         virtual void onPongRecv() = 0;
     };
 
-    TestProtocol(network::MessageIO& messageIO) :
-        network::Protocol(messageIO)
+    TestProtocol(network::MessageIO& messageIO, Listener* l) :
+        network::Protocol(messageIO),
+        mListener(l)
     {
     }
 
@@ -48,8 +49,23 @@ private:
                 break;
             case MessageType::PONG:
                 std::cout << "Pong received" << std::endl;
+                if (mListener != nullptr) {
+                    mListener->onPongRecv();
+                }
                 break;
         }
+    }
+
+    Listener* mListener;
+};
+
+class TestProtocolListener : public TestProtocol::Listener
+{
+public:
+    virtual ~TestProtocolListener() {}
+    virtual void onPongRecv() override
+    {
+        network::IOServiceManager::get().stop();
     }
 };
 
@@ -57,7 +73,7 @@ class TestSession : public network::Session
 {
 public:
     TestSession() :
-        mProtocol(*this)
+        mProtocol(*this, nullptr)
 
     {
     }
@@ -100,7 +116,8 @@ int main(int argc, char* argv[])
         std::string ip(argv[2]);
         std::string port(argv[3]);
         network::Client client(ip, port);
-        TestProtocol protocol{client};
+        TestProtocolListener listener;
+        TestProtocol protocol{client, &listener};
         protocol.sendPing();
         network::IOServiceManager::get().run();
     } else {

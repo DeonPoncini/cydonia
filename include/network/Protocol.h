@@ -16,16 +16,8 @@ class Connection;
 class Protocol : public MessageListener
 {
 public:
-    class Listener
-    {
-    public:
-        virtual ~Listener() {}
-    };
     Protocol(MessageIO& messageIO);
     virtual ~Protocol();
-
-    void addListener(Listener* l);
-    void removeListener(Listener* l);
 
     virtual void onRecv(const Message& message) override;
 
@@ -36,7 +28,6 @@ protected:
 
 private:
     MessageIO& mMessageIO;
-    std::vector<Listener*> mListeners;
     zephyr::QueueLoop<Message> mMessageLoop;
     std::thread mReplyThread;
 
