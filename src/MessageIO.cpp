@@ -1,6 +1,6 @@
 #include <network/MessageIO.h>
-#include <network/Utils.h>
 #include <network/IOServiceManager.h>
+#include <zephyr/Timestamp.h>
 
 #include <boost/bind.hpp>
 #include <boost/log/trivial.hpp>
@@ -35,7 +35,7 @@ void MessageIO::sendMessage(int type, const char* message,
 {
     // make a message object
     if (frameId == -1) {
-        frameId = currentMs();
+        frameId = zephyr::timestamp::ms();
     }
     Message msg(type, size, frameId);
     msg.setBody(message);
