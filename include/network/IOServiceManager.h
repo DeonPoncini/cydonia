@@ -8,7 +8,7 @@ namespace network
 {
 
 typedef boost::asio::io_service IOService;
-typedef std::shared_ptr<IOService> IOServicePtr;
+typedef std::unique_ptr<IOService> IOServicePtr;
 
 class IOServiceManager
 {

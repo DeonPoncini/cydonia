@@ -1,4 +1,5 @@
 #include <network/IOServiceManager.h>
+#include <zephyr/make_unique.h>
 
 namespace network
 {
@@ -10,7 +11,7 @@ IOServiceManager& IOServiceManager::get()
 }
 
 IOServiceManager::IOServiceManager() :
-    mIOService(std::make_shared<IOService>())
+    mIOService(zephyr::make_unique<IOService>())
 {
 }
 
