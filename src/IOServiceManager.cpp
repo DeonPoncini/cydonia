@@ -1,7 +1,5 @@
 #include <network/IOServiceManager.h>
 
-#include <boost/make_shared.hpp>
-
 namespace network
 {
 
@@ -12,7 +10,7 @@ IOServiceManager& IOServiceManager::get()
 }
 
 IOServiceManager::IOServiceManager() :
-    mIOService(boost::make_shared<IOService>())
+    mIOService(std::make_shared<IOService>())
 {
 }
 
