@@ -1,5 +1,5 @@
-#ifndef NETWORK_PROTOCOL_H
-#define NETWORK_PROTOCOL_H
+#ifndef CYDONIA_PROTOCOL_H
+#define CYDONIA_PROTOCOL_H
 
 #include "MessageIO.h"
 
@@ -8,7 +8,7 @@
 #include <thread>
 #include <vector>
 
-namespace network
+namespace cydonia
 {
 
 class Protocol : public MessageListener

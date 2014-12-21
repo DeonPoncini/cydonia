@@ -1,5 +1,5 @@
-#ifndef NETWORK_MESSAGEIO_H
-#define NETWORK_MESSAGEIO_H
+#ifndef CYDONIA_MESSAGEIO_H
+#define CYDONIA_MESSAGEIO_H
 
 #include "Message.h"
 
@@ -9,13 +9,12 @@
 #include <deque>
 #include <string>
 #include <vector>
-#include <ctime>
 
 typedef boost::asio::io_service IOService;
 typedef boost::asio::ip::tcp::socket Socket;
 typedef boost::system::error_code ErrorCode;
 
-namespace network
+namespace cydonia
 {
 
 typedef std::shared_ptr<Message> MessagePtr;

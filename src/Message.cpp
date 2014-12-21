@@ -1,9 +1,8 @@
-#include <network/Message.h>
+#include <cydonia/Message.h>
 
-#include <cstdlib>
 #include <cstring>
 
-namespace network
+namespace cydonia
 {
 
 Message::Message(int type, unsigned size, int frame) :

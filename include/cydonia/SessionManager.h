@@ -1,11 +1,11 @@
-#ifndef NETWORK_SESSIONMANAGER_H
-#define NETWORK_SESSIONMANAGER_H
+#ifndef CYDONIA_SESSIONMANAGER_H
+#define CYDONIA_SESSIONMANAGER_H
 
 #include <memory>
 #include <boost/asio.hpp>
 #include <vector>
 
-namespace network
+namespace cydonia
 {
 
 class Session;

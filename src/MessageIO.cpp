@@ -1,11 +1,11 @@
-#include <network/MessageIO.h>
-#include <network/IOServiceManager.h>
+#include <cydonia/MessageIO.h>
+#include <cydonia/IOServiceManager.h>
 #include <zephyr/Timestamp.h>
 
 #include <boost/bind.hpp>
 #include <boost/log/trivial.hpp>
 
-namespace network
+namespace cydonia
 {
 
 MessageIO::MessageIO() :

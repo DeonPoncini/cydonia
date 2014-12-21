@@ -1,11 +1,11 @@
-#ifndef NETWORK_CLIENT_H
-#define NETWORK_CLIENT_H
+#ifndef CYDONIA_CLIENT_H
+#define CYDONIA_CLIENT_H
 
 #include <boost/asio.hpp>
 
 #include "MessageIO.h"
 
-namespace network
+namespace cydonia
 {
 
 class Client : public MessageIO

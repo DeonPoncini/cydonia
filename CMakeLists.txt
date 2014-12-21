@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-project(libnetwork)
+project(cydonia)
 
 ################################
 # Compiler setup
@@ -42,27 +42,28 @@ set(NETWORK_LIBS
 ################################
 # Build targets
 ################################
-add_library(network SHARED
+add_library(cydonia SHARED
     ${SRC}
     ${INCLUDES})
 
-target_link_libraries(network
+target_link_libraries(cydonia
     ${NETWORK_LIBS})
 
-add_executable(network-test
+add_executable(cydonia-test
     ${TEST})
 
-target_link_libraries(network-test
-    network)
+target_link_libraries(cydonia-test
+    cydonia)
 
 ################################
 # Export library
 ################################
 
 export_project(
-    NAME libnetwork
+    NAME cydonia
     INCLUDES ${CMAKE_CURRENT_LIST_DIR}/include
-    LIBS network
+    BINS cydonia-test
+    LIBS cydonia
     VERSION ${NETWORK_VERSION}
 )
 

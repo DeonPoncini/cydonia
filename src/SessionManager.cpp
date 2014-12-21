@@ -1,8 +1,8 @@
-#include <network/SessionManager.h>
+#include <cydonia/SessionManager.h>
 
-#include <network/Session.h>
+#include <cydonia/Session.h>
 
-namespace network
+namespace cydonia
 {
 
 SessionManager& SessionManager::get()

@@ -1,5 +1,5 @@
-#ifndef NETWORK_SERVER_H
-#define NETWORK_SERVER_H
+#ifndef CYDONIA_SERVER_H
+#define CYDONIA_SERVER_H
 
 #include "Session.h"
 #include "SessionManager.h"
@@ -12,7 +12,7 @@
 #include <boost/bind.hpp>
 #include <boost/log/trivial.hpp>
 
-namespace network
+namespace cydonia
 {
 
 typedef std::shared_ptr<Session> SessionPtr;

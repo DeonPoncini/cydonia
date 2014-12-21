@@ -1,8 +1,8 @@
-#include <network/Protocol.h>
+#include <cydonia/Protocol.h>
 
 #include <sstream>
 
-namespace network
+namespace cydonia
 {
 
 Protocol::Protocol(MessageIO& messageIO) :

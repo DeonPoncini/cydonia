@@ -1,7 +1,7 @@
-#include <network/IOServiceManager.h>
+#include <cydonia/IOServiceManager.h>
 #include <zephyr/make_unique.h>
 
-namespace network
+namespace cydonia
 {
 
 IOServiceManager& IOServiceManager::get()

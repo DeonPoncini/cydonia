@@ -1,12 +1,12 @@
-#ifndef NETWORK_SESSION_H
-#define NETWORK_SESSION_H
+#ifndef CYDONIA_SESSION_H
+#define CYDONIA_SESSION_H
 
 #include "MessageIO.h"
 
 #include <memory>
 #include <boost/asio.hpp>
 
-namespace network
+namespace cydonia
 {
 
 class Session : public MessageIO,

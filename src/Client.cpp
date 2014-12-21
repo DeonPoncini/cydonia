@@ -1,11 +1,11 @@
-#include <network/Client.h>
+#include <cydonia/Client.h>
 
-#include <network/IOServiceManager.h>
+#include <cydonia/IOServiceManager.h>
 
 #include <boost/bind.hpp>
 #include <boost/log/trivial.hpp>
 
-namespace network
+namespace cydonia
 {
 
 typedef boost::asio::ip::tcp::resolver Resolver;

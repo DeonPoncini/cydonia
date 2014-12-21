@@ -1,13 +1,13 @@
-#include <network/Client.h>
-#include <network/Protocol.h>
-#include <network/Server.h>
+#include <cydonia/Client.h>
+#include <cydonia/Protocol.h>
+#include <cydonia/Server.h>
 
 #include <iostream>
 #include <string>
 
 const auto PING_COUNT = 100;
 
-class TestProtocol : public network::Protocol
+class TestProtocol : public cydonia::Protocol
 {
 public:
     class Listener
@@ -17,8 +17,8 @@ public:
         virtual void onPongRecv() = 0;
     };
 
-    TestProtocol(network::MessageIO& messageIO, Listener* l) :
-        network::Protocol(messageIO),
+    TestProtocol(cydonia::MessageIO& messageIO, Listener* l) :
+        cydonia::Protocol(messageIO),
         mListener(l)
     {
     }
@@ -42,7 +42,7 @@ private:
         PONG
     };
 
-    virtual void message(network::Message&& message) override
+    virtual void message(cydonia::Message&& message) override
     {
         switch (message.type()) {
             case MessageType::PING:
@@ -69,14 +69,14 @@ public:
     {
         mRecCount++;
         if (mRecCount == PING_COUNT) {
-            network::IOServiceManager::get().stop();
+            cydonia::IOServiceManager::get().stop();
         }
     }
 private:
     int mRecCount = 0;
 };
 
-class TestSession : public network::Session
+class TestSession : public cydonia::Session
 {
 public:
     TestSession() :
@@ -91,13 +91,13 @@ private:
 
 void usage()
 {
-    std::cout << "Usage: network-test server <port> | client <ip>"
+    std::cout << "Usage: cydonia-test server <port> | client <ip>"
         << " <port>" << std::endl;
 }
 
 void iothread()
 {
-    network::IOServiceManager::get().run();
+    cydonia::IOServiceManager::get().run();
 }
 
 int main(int argc, char* argv[])
@@ -122,7 +122,7 @@ int main(int argc, char* argv[])
 
     if (action == "server") {
         auto port = atoi(argv[2]);
-        network::Server<TestSession> server(port);
+        cydonia::Server<TestSession> server(port);
         std::thread t(iothread);
         if (t.joinable()) {
             t.join();
@@ -130,7 +130,7 @@ int main(int argc, char* argv[])
     } else if (action == "client") {
         std::string ip(argv[2]);
         std::string port(argv[3]);
-        network::Client client(ip, port);
+        cydonia::Client client(ip, port);
         TestProtocolListener listener;
         TestProtocol protocol{client, &listener};
         std::thread t(iothread);

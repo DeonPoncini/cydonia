@@ -1,10 +1,10 @@
-#include <network/Session.h>
-#include <network/SessionManager.h>
+#include <cydonia/Session.h>
+#include <cydonia/SessionManager.h>
 
 #include <boost/bind.hpp>
 #include <boost/log/trivial.hpp>
 
-namespace network
+namespace cydonia
 {
 
 Session::Session()

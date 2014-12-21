@@ -1,10 +1,7 @@
-#ifndef NETWORK_MESSAGE_H
-#define NETWORK_MESSAGE_H
+#ifndef CYDONIA_MESSAGE_H
+#define CYDONIA_MESSAGE_H
 
-#include <cstddef>
-#include <ctime>
-
-namespace network
+namespace cydonia
 {
 
 class Message
