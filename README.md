@@ -85,3 +85,8 @@ The above sequence will launch a server bound on port 10000, then run a client
 on the same machine to send messages to the server. The default test client
 sends a string to the server 100 times and gets a string result from the server,
 and then exits the client when all strings have been returned.
+
+License
+-------
+Copyright (c) 2014 Deon Poncini.
+See the LICENSE file for license rights and limitations (MIT)
