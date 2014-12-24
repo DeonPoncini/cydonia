@@ -42,7 +42,7 @@ set(NETWORK_LIBS
 ################################
 # Build targets
 ################################
-add_library(cydonia SHARED
+add_library(cydonia
     ${SRC}
     ${INCLUDES})
 
