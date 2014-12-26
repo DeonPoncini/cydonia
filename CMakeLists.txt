@@ -7,17 +7,21 @@ project(cydonia)
 
 set(NETWORK_VERSION "0.0.1")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DBOOST_LOG_DYN_LINK")
+if ("${CROSS_TARGET}" STREQUAL "linux-64")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DBOOST_LOG_DYN_LINK -Wno-deprecated-register")
+else()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-register")
+endif()
+
 
 ################################
 # Third party libraries
 ################################
-find_package(Threads)
 find_package(Boost 1.55.0 COMPONENTS
-    log log_setup thread system REQUIRED)
+    atomic log log_setup thread system REQUIRED)
 find_package(zephyr)
 
-include_directories(${BOOST_INCLUDE_DIRS})
+include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${ZEPHYR_INCLUDE_DIRS})
 
 ################################
@@ -34,7 +38,6 @@ include_directories(src)
 # Libraries
 ################################
 set(NETWORK_LIBS
-    ${CMAKE_THREAD_LIBS_INIT}
     ${Boost_LIBRARIES}
     ${ZEPHYR_LIBRARIES}
     )
@@ -47,13 +50,16 @@ add_library(cydonia
     ${INCLUDES})
 
 target_link_libraries(cydonia
-    ${NETWORK_LIBS})
+    ${NETWORK_LIBS}
+    ${TARGET_PATH}/lib/libboost_atomic.a
+    atomic)
 
 add_executable(cydonia-test
     ${TEST})
 
 target_link_libraries(cydonia-test
     cydonia)
+
 
 ################################
 # Export library
